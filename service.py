@@ -54,13 +54,14 @@ collection = vikingdb_service.get_collection("Khaleed_Identity_Context_Collectio
 
 
 async def extract_identity(request: IdentityRequest) -> IdentityResponse:
+    # TODO : refactor this function for face_embedding/recognition part
     # 1. Download image
     image = download_image(request.image_url)
 
     # 2. Get face embedding
-    face_embedding, confidence = get_face_embedding(
-        image, request.metadata.get("face_bbox")
-    )
+    # face_embedding, confidence = get_face_embedding(
+    #     image, request.metadata.get("face_bbox")
+    # )
 
     # 3. Get identity description from Seed 1.6
     identity_description = call_seed16_identity_description(request.image_url)
@@ -73,7 +74,7 @@ async def extract_identity(request: IdentityRequest) -> IdentityResponse:
         img_url=request.image_url,
         face_bbox=request.metadata.get("face_bbox"),
         source="feature-extractor-mcp",
-        confidence=confidence,
+        confidence=0,
         style_tags=[""],
         created_at="",
         version="1.0",
@@ -83,8 +84,8 @@ async def extract_identity(request: IdentityRequest) -> IdentityResponse:
 
     return IdentityResponse(
         identity_description=identity_description,
-        face_embedding=face_embedding,
-        confidence=confidence,
+        face_embedding=[],
+        confidence=0,
     )
 
 
