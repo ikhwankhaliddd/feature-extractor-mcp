@@ -1,11 +1,11 @@
 from pydantic import BaseModel, HttpUrl
-from typing import List, Optional
+from typing import List, Optional, Any
 
 
 class IdentityRequest(BaseModel):
     image_url: HttpUrl
     tos_image_url: str
-    metadata: dict
+    metadata: Optional[Any]
 
 
 class IdentityResponse(BaseModel):
