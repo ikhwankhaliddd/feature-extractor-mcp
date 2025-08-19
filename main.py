@@ -17,7 +17,7 @@ async def extract_identity_endpoint(request: IdentityRequest):
             pass  # leave as string if invalid JSON
 
     try:
-        result = await extract_identity(request)
+        result = extract_identity(request)
         return result
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))

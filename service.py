@@ -53,7 +53,7 @@ vikingdb_service.set_sk(SK)
 collection = vikingdb_service.get_collection("Khaleed_Identity_Context_Collection")
 
 
-async def extract_identity(request: IdentityRequest) -> IdentityResponse:
+def extract_identity(request: IdentityRequest) -> IdentityResponse:
     # TODO : refactor this function for face_embedding/recognition part
     # 1. Download image
     image = download_image(request.image_url)
