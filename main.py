@@ -9,15 +9,21 @@ app = FastAPI(title="Feature Extractor MCP")
 
 @app.post("/extract-feature", response_model=IdentityResponse)
 async def extract_identity_endpoint(request: IdentityRequest):
-    if isinstance(request.metadata, str):
+    # Work on a clean dict version
+    req_dict = request.model_dump()
+
+    if isinstance(req_dict["metadata"], str):
         try:
-            json_metadata = json.loads(request.metadata)
-            request.metadata = json_metadata
+            req_dict["metadata"] = json.loads(req_dict["metadata"])
         except json.JSONDecodeError:
             pass  # leave as string if invalid JSON
 
     try:
-        result = extract_identity(request)
+        result = extract_identity(
+            req_dict["image_url"],
+            req_dict["metadata"]["face_bbox"],
+            req_dict["tos_image_url"],
+        )
         return result
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
